@@ -12,25 +12,16 @@ Sensor A is I2C and connected through A4 and A5 (SDA/SCL)
 Sensor B is SPI and connected through pins 10, 11, 12, and 13 through a
 level shifter, with pin 10 being used for chip select.
 
-Resources:
-Uses Wire.h for I2C operation
-Uses SPI.h for SPI operation
-
 Development environment specifics:
-Arduino IDE 1.6.4
-Teensy loader 1.23
+Particle IDE or Web IDE
 
 This code is released under the [MIT License](http://opensource.org/licenses/MIT).
-Please review the LICENSE.md file included with this example. If you have any questions 
+Please review the LICENSE.md file included with this example. If you have any questions
 or concerns with licensing, please contact techsupport@sparkfun.com.
 Distributed as-is; no warranty is given.
 ******************************************************************************/
 
-#include <stdint.h>
 #include "SparkFunBME280.h"
-
-#include "Wire.h"
-#include "SPI.h"
 
 //Global sensor object
 BME280 mySensorA;
@@ -58,9 +49,9 @@ void setup()
 	//  1 through 5, oversampling *1, *2, *4, *8, *16 respectively
 	mySensorA.settings.humidOverSample = 1;
 
-	
-	
-	
+
+
+
 	//***Set up sensor 'B'******************************//
 	//commInterface can be I2C_MODE or SPI_MODE
 	//specify chipSelectPin using arduino pin names
@@ -82,9 +73,9 @@ void setup()
 	//  0, skipped
 	//  1 through 5, oversampling *1, *2, *4, *8, *16 respectively
 	mySensorB.settings.humidOverSample = 1;
-	
-	
-	
+
+
+
 	//***Initialize the things**************************//
 	Serial.begin(57600);
 	Serial.print("Program Started\n");
@@ -132,16 +123,16 @@ void loop()
 	Serial.print(mySensorA.readFloatAltitudeFeet(), 2);
 	Serial.print(", ");
 	Serial.print(mySensorB.readFloatAltitudeFeet(), 2);
-	Serial.println("ft");	
+	Serial.println("ft");
 
 	Serial.print("%RH: ");
 	Serial.print(mySensorA.readFloatHumidity(), 2);
 	Serial.print(", ");
 	Serial.print(mySensorB.readFloatHumidity(), 2);
 	Serial.println(" %");
-	
+
 	Serial.println();
-	
+
 	delay(1000);
 
 }

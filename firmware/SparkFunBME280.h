@@ -1,20 +1,15 @@
 /******************************************************************************
 SparkFunBME280.h
-BME280 Arduino and Teensy Driver
-Marshall Taylor @ SparkFun Electronics
-May 20, 2015
-https://github.com/sparkfun/BME280_Breakout
-
-Resources:
-Uses Wire.h for i2c operation
-Uses SPI.h for SPI operation
+BME280 Particle Photon and Core Driver
+Orginal by: Marshall Taylor @ SparkFun Electronics
+Particle adaption by: Markus Haack (https://github.com/mhaack)
+https://github.com/mhaack/SparkFun_BME280
 
 Development environment specifics:
-Arduino IDE 1.6.4
-Teensy loader 1.23
+Particle IDE or Web IDE
 
 This code is released under the [MIT License](http://opensource.org/licenses/MIT).
-Please review the LICENSE.md file included with this example. If you have any questions 
+Please review the LICENSE.md file included with this example. If you have any questions
 or concerns with licensing, please contact techsupport@sparkfun.com.
 Distributed as-is; no warranty is given.
 ******************************************************************************/
@@ -23,7 +18,7 @@ Distributed as-is; no warranty is given.
 #ifndef __BME280_H__
 #define __BME280_H__
 
-#include "stdint.h"
+#include "application.h"
 
 #define I2C_MODE 0
 #define SPI_MODE 1
@@ -90,12 +85,12 @@ Distributed as-is; no warranty is given.
 struct SensorSettings
 {
   public:
-	
+
   //Main Interface and mode settings
     uint8_t commInterface;
     uint8_t I2CAddress;
     uint8_t chipSelectPin;
-	
+
 	uint8_t runMode;
 	uint8_t tStandby;
 	uint8_t filter;
@@ -113,7 +108,7 @@ struct SensorCalibration
 	uint16_t dig_T1;
 	int16_t dig_T2;
 	int16_t dig_T3;
-	
+
 	uint16_t dig_P1;
 	int16_t dig_P2;
 	int16_t dig_P3;
@@ -123,14 +118,14 @@ struct SensorCalibration
 	int16_t dig_P7;
 	int16_t dig_P8;
 	int16_t dig_P9;
-	
+
 	uint8_t dig_H1;
 	int16_t dig_H2;
 	uint8_t dig_H3;
 	int16_t dig_H4;
 	int16_t dig_H5;
 	uint8_t dig_H6;
-	
+
 };
 
 //This is the man operational class of the driver.
@@ -142,24 +137,24 @@ class BME280
     SensorSettings settings;
 	SensorCalibration calibration;
 	int32_t t_fine;
-	
+
 	//Constructor generates default SensorSettings.
 	//(over-ride after construction if desired)
     BME280( void );
     //~BME280() = default;
-	
+
 	//Call to apply SensorSettings.
 	//This also gets the SensorCalibration constants
     uint8_t begin( void );
 
 	//Software reset routine
 	void reset( void );
-	
+
     //Returns the values as floats.
     float readFloatPressure( void );
 	float readFloatAltitudeMeters( void );
 	float readFloatAltitudeFeet( void );
-	
+
 	float readFloatHumidity( void );
 
 	//Temperature related methods
@@ -178,7 +173,7 @@ class BME280
 	int16_t readRegisterInt16( uint8_t offset );
 	//Writes a byte;
     void writeRegister(uint8_t, uint8_t);
-    
+
 };
 
 

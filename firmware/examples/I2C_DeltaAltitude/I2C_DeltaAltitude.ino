@@ -25,26 +25,19 @@ Note: For most accurate results keep the sensor orientation and temperature the
 same between measurements.
 
 Resources:
-Uses Wire.h for I2C operation
-Uses SPI.h for SPI operation
 Included CircularBuffer class for averaging
 
 Development environment specifics:
-Arduino IDE 1.6.4
-Teensy loader 1.23
+Particle IDE or Web IDE
 
 This code is released under the [MIT License](http://opensource.org/licenses/MIT).
-Please review the LICENSE.md file included with this example. If you have any questions 
+Please review the LICENSE.md file included with this example. If you have any questions
 or concerns with licensing, please contact techsupport@sparkfun.com.
 Distributed as-is; no warranty is given.
 ******************************************************************************/
 
-#include <stdint.h>
 #include "SparkFunBME280.h"
 #include "CircularBuffer.h"
-
-#include "Wire.h"
-#include "SPI.h"
 
 //Global sensor object
 BME280 mySensor;
@@ -63,29 +56,29 @@ void setup()
 	pinMode( buttonSensePin, INPUT_PULLUP );
 	pinMode( buttonGroundPin, OUTPUT );
 	digitalWrite( buttonGroundPin, 0 );
-	
+
 	//***Driver settings********************************//
 	//commInterface can be I2C_MODE or SPI_MODE
 	//specify chipSelectPin using arduino pin names
 	//specify I2C address.  Can be 0x77(default) or 0x76
-	
+
 	//For I2C, enable the following and disable the SPI section
 	mySensor.settings.commInterface = I2C_MODE;
 	mySensor.settings.I2CAddress = 0x77;
-	
+
 	//For SPI enable the following and dissable the I2C section
 	//mySensor.settings.commInterface = SPI_MODE;
 	//mySensor.settings.chipSelectPin = 10;
 
 
 	//***Operation settings*****************************//
-	
-	//renMode can be:
+
+	//runMode can be:
 	//  0, Sleep mode
 	//  1 or 2, Forced mode
 	//  3, Normal mode
 	mySensor.settings.runMode = 3; //Normal mode
-	
+
 	//tStandby can be:
 	//  0, 0.5ms
 	//  1, 62.5ms
@@ -96,7 +89,7 @@ void setup()
 	//  6, 10ms
 	//  7, 20ms
 	mySensor.settings.tStandby = 0;
-	
+
 	//filter can be off or number of FIR coefficients to use:
 	//  0, filter off
 	//  1, coefficients = 2
@@ -104,7 +97,7 @@ void setup()
 	//  3, coefficients = 8
 	//  4, coefficients = 16
 	mySensor.settings.filter = 4; //Lots of HW filter
-	
+
 	//tempOverSample can be:
 	//  0, skipped
 	//  1 through 5, oversampling *1, *2, *4, *8, *16 respectively
@@ -114,12 +107,12 @@ void setup()
 	//  0, skipped
 	//  1 through 5, oversampling *1, *2, *4, *8, *16 respectively
     mySensor.settings.pressOverSample = 5;
-	
+
 	//humidOverSample can be:
 	//  0, skipped
 	//  1 through 5, oversampling *1, *2, *4, *8, *16 respectively
 	mySensor.settings.humidOverSample = 1;
-	
+
 	Serial.begin(57600);
 	Serial.print("Program Started\n");
 	Serial.print("Starting BME280... result of .begin(): 0x");
@@ -135,18 +128,18 @@ void loop()
 {
 	//Get the local temperature!  Do this for calibration
 	mySensor.readTempC();
-	
+
 	//Check button.  No debounce, so hold for operation
 	if( digitalRead( buttonSensePin ) == 0 )
 	{
 		//Set reference altitude.
 		reference = mySensor.readFloatAltitudeFeet();
 	}
-	
+
 	float lastAlt = mySensor.readFloatAltitudeFeet() - reference;
 	myBuffer.pushElement(lastAlt);
 	float tempAlt = myBuffer.averageLast(15); //Do an average of the latest samples
-	
+
 	Serial.println();
 	Serial.print("Temperature: ");
 	Serial.print(mySensor.readTempC(), 2);
@@ -157,7 +150,7 @@ void loop()
 		Serial.print(" ");
 	}
 	Serial.print(lastAlt, 2);
-	Serial.println(" ft");	
+	Serial.println(" ft");
 	Serial.print("Last 15 samples averaged: ");
 	if(tempAlt >= 0)
 	{
