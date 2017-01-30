@@ -39,11 +39,6 @@ Documentation
 * **[Product Repository](https://github.com/sparkfun/BME280-Breakout-Board)** - Main repository (including hardware files) for the SparkFun BME280 Breakout.
 * **[Hookup Guide](https://learn.sparkfun.com/tutorials/bme280-breakout-hookup-guide)** - Basic hookup guide for the SparkFun BME280 Breakout.
 
-Products that use this Library 
----------------------------------
-
-* [*SEN-13676*](https://www.sparkfun.com/products/13676)
-
 Version History
 ---------------
 * [V_1.0.0](https://github.com/mhaack/SparkFun_BME280/releases/tag/V_1.0.0) - October 2015 Initial Release
