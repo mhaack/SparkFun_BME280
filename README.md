@@ -1,4 +1,4 @@
-SparkFun <PRODUCT NAME> Particle Photon Library
+SparkFun Particle Photon Library
 ===============================================
 
 This is a library for the SparkFun BME280 Humidity, Barometric Pressure + Temp sensor
@@ -42,7 +42,7 @@ Documentation
 Version History
 ---------------
 * [V_1.0.0](https://github.com/mhaack/SparkFun_BME280/releases/tag/V_1.0.0) - October 2015 Initial Release
-* [V_1.1.0](https://github.com/mhaack/SparkFun_BME280/releases/tag/V_1.1.0) - January 2017 migrated to V2 library, pulled minor changes
+* [V_1.1.1](https://github.com/mhaack/SparkFun_BME280/releases/tag/V_1.1.1) - January 2017 migrated to V2 library, pulled minor changes
 
 License Information
 -------------------
