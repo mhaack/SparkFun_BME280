@@ -1,9 +1,15 @@
-SparkFun <PRODUCT NAME> Arduino Library
-========================================
+SparkFun <PRODUCT NAME> Particle Photon Library
+===============================================
 
-![SparkFun BME280 Breakout](https://github.com/sparkfun/SparkFun_BME280_Arduino_Library/blob/master/readme_picture.jpg)
+This is a library for the SparkFun BME280 Humidity, Barometric Pressure + Temp sensor
 
-[*SparkFun BME280 (SEN-13676)*](https://www.sparkfun.com/products/13676)
+Particle Photon, Core & Electorn Library based on Sparkfun Arduino Library for BME280 sensors adapted by Markus Haack
+
+Designed specifically to work with the [*SparkFun BME280 (SEN-13676)*](https://www.sparkfun.com/products/13676)
+
+Works with the following BME280-Breakouts as well:
+ * http://www.watterott.com/en/BME280-Breakout-humidity-pressure-temperature-sensor
+ * http://www.adafruit.com/products/2652
 
 This library allows the user to:
 
@@ -23,9 +29,7 @@ Repository Contents
 -------------------
 
 * **/examples** - Example sketches for the library (.ino). Run these from the Arduino IDE. 
-* **/extras** - Additional documentation for the user. These files are ignored by the IDE. 
 * **/src** - Source files for the library (.cpp, .h).
-* **keywords.txt** - Keywords from this library that will be highlighted in the Arduino IDE. 
 * **library.properties** - General library properties for the Arduino package manager. 
 
 Documentation
@@ -42,12 +46,13 @@ Products that use this Library
 
 Version History
 ---------------
-
-* [V_1.0.0](https://github.com/sparkfun/SparkFun_BME280_Arduino_Library/tree/V_1.0.0) - Public release.
-* [V_1.1.0](https://github.com/sparkfun/SparkFun_BME280_Arduino_Library/tree/V_1.1.0) - Pulled request to add decimal precision to readFloatPressure() and readFloatHumidity().
+* [V_1.0.0](https://github.com/mhaack/SparkFun_BME280/releases/tag/V_1.0.0) - October 2015 Initial Release
+* [V_1.1.0](https://github.com/mhaack/SparkFun_BME280/releases/tag/V_1.1.0) - January 2017 migrated to V2 library, pulled minor changes
 
 License Information
 -------------------
+
+Original Arduino library: https://github.com/sparkfun/SparkFun_BME280_Arduino_Library
 
 This product is _**open source**_! 
 
@@ -56,5 +61,3 @@ Please review the LICENSE.md file for license information.
 If you have any questions or concerns on licensing, please contact techsupport@sparkfun.com.
 
 Distributed as-is; no warranty is given.
-
-- Your friends at SparkFun.
