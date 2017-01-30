@@ -1,17 +1,9 @@
-SparkFun <PRODUCT NAME> Particle Photon Library
-===============================================
+SparkFun <PRODUCT NAME> Arduino Library
+========================================
 
-This is a library for the SparkFun BME280 Humidity, Barometric Pressure + Temp sensor
+![SparkFun BME280 Breakout](https://github.com/sparkfun/SparkFun_BME280_Arduino_Library/blob/master/readme_picture.jpg)
 
-Particle Photon & Core DHT Library based on Sparkfun Arduino Library for BME280 sensors adapted by Markus Haack
-
-v1.0.0, October 2015 Initial Release
-
-Designed specifically to work with the [*SparkFun BME280 (SEN-13676)*](https://www.sparkfun.com/products/13676)
-
-Works with the following BME280-Breakouts as well:
- * http://www.watterott.com/en/BME280-Breakout-humidity-pressure-temperature-sensor
- * http://www.adafruit.com/products/2652
+[*SparkFun BME280 (SEN-13676)*](https://www.sparkfun.com/products/13676)
 
 This library allows the user to:
 
@@ -25,7 +17,16 @@ It also provides the following mathematical functions based from the above.
 * Read altitude in meters
 * Read altitude in feet
 
-Original Arduino library: https://github.com/sparkfun/SparkFun_BME280_Arduino_Library
+Some examples include a circular buffer class for averaging.
+
+Repository Contents
+-------------------
+
+* **/examples** - Example sketches for the library (.ino). Run these from the Arduino IDE. 
+* **/extras** - Additional documentation for the user. These files are ignored by the IDE. 
+* **/src** - Source files for the library (.cpp, .h).
+* **keywords.txt** - Keywords from this library that will be highlighted in the Arduino IDE. 
+* **library.properties** - General library properties for the Arduino package manager. 
 
 Documentation
 --------------
@@ -33,16 +34,27 @@ Documentation
 * **[Installing an Arduino Library Guide](https://learn.sparkfun.com/tutorials/installing-an-arduino-library)** - Basic information on how to install an Arduino library.
 * **[Product Repository](https://github.com/sparkfun/BME280-Breakout-Board)** - Main repository (including hardware files) for the SparkFun BME280 Breakout.
 * **[Hookup Guide](https://learn.sparkfun.com/tutorials/bme280-breakout-hookup-guide)** - Basic hookup guide for the SparkFun BME280 Breakout.
-* **[Examples](https://github.com/sparkfun/SparkFun_BME280_Arduino_Library/tree/master/examples)** - More code examples for the SparkFun BME280 Breakout.
 
+Products that use this Library 
+---------------------------------
+
+* [*SEN-13676*](https://www.sparkfun.com/products/13676)
+
+Version History
+---------------
+
+* [V_1.0.0](https://github.com/sparkfun/SparkFun_BME280_Arduino_Library/tree/V_1.0.0) - Public release.
+* [V_1.1.0](https://github.com/sparkfun/SparkFun_BME280_Arduino_Library/tree/V_1.1.0) - Pulled request to add decimal precision to readFloatPressure() and readFloatHumidity().
 
 License Information
 -------------------
 
-This product is _**open source**_!
+This product is _**open source**_! 
 
-Please review the LICENSE.md file for license information.
+Please review the LICENSE.md file for license information. 
 
 If you have any questions or concerns on licensing, please contact techsupport@sparkfun.com.
 
 Distributed as-is; no warranty is given.
+
+- Your friends at SparkFun.

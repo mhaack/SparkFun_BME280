@@ -1,23 +1,31 @@
 /******************************************************************************
 SparkFunBME280.cpp
-BME280 Particle Photon and Core Driver
-Orginal by: Marshall Taylor @ SparkFun Electronics
-Particle adaption by: Markus Haack (https://github.com/mhaack)
-https://github.com/mhaack/SparkFun_BME280
+BME280 Arduino and Teensy Driver
+Marshall Taylor @ SparkFun Electronics
+May 20, 2015
+https://github.com/sparkfun/BME280_Breakout
+
+Resources:
+Uses Wire.h for i2c operation
+Uses SPI.h for SPI operation
 
 Development environment specifics:
-Particle IDE or Web IDE
+Arduino IDE 1.6.4
+Teensy loader 1.23
 
 This code is released under the [MIT License](http://opensource.org/licenses/MIT).
-Please review the LICENSE.md file included with this example. If you have any questions
+Please review the LICENSE.md file included with this example. If you have any questions 
 or concerns with licensing, please contact techsupport@sparkfun.com.
 Distributed as-is; no warranty is given.
 ******************************************************************************/
 //See SparkFunBME280.h for additional topology notes.
 
 #include "SparkFunBME280.h"
-#include "application.h"
+#include "stdint.h"
 #include <math.h>
+
+#include "Wire.h"
+#include "SPI.h"
 
 //****************************************************************************//
 //
@@ -49,7 +57,7 @@ BME280::BME280( void )
 //  Configuration section
 //
 //  This uses the stored SensorSettings to start the IMU
-//  Use statements such as "mySensor.settings.commInterface = SPI_MODE;" to
+//  Use statements such as "mySensor.settings.commInterface = SPI_MODE;" to 
 //  configure before calling .begin();
 //
 //****************************************************************************//
@@ -87,7 +95,7 @@ uint8_t BME280::begin()
 	}
 
 	//Reading all compensation data, range 0x88:A1, 0xE1:E7
-
+	
 	calibration.dig_T1 = ((uint16_t)((readRegister(BME280_DIG_T1_MSB_REG) << 8) + readRegister(BME280_DIG_T1_LSB_REG)));
 	calibration.dig_T2 = ((int16_t)((readRegister(BME280_DIG_T2_MSB_REG) << 8) + readRegister(BME280_DIG_T2_LSB_REG)));
 	calibration.dig_T3 = ((int16_t)((readRegister(BME280_DIG_T3_MSB_REG) << 8) + readRegister(BME280_DIG_T3_LSB_REG)));
@@ -112,16 +120,16 @@ uint8_t BME280::begin()
 	//Set the oversampling control words.
 	//config will only be writeable in sleep mode, so first insure that.
 	writeRegister(BME280_CTRL_MEAS_REG, 0x00);
-
+	
 	//Set the config word
 	dataToWrite = (settings.tStandby << 0x5) & 0xE0;
 	dataToWrite |= (settings.filter << 0x02) & 0x1C;
 	writeRegister(BME280_CONFIG_REG, dataToWrite);
-
+	
 	//Set ctrl_hum first, then ctrl_meas to activate ctrl_hum
 	dataToWrite = settings.humidOverSample & 0x07; //all other bits can be ignored
 	writeRegister(BME280_CTRL_HUMIDITY_REG, dataToWrite);
-
+	
 	//set ctrl_meas
 	//First, set temp oversampling
 	dataToWrite = (settings.tempOverSample << 0x5) & 0xE0;
@@ -131,7 +139,7 @@ uint8_t BME280::begin()
 	dataToWrite |= (settings.runMode) & 0x03;
 	//Load the byte
 	writeRegister(BME280_CTRL_MEAS_REG, dataToWrite);
-
+	
 	return readRegister(0xD0);
 }
 
@@ -139,7 +147,7 @@ uint8_t BME280::begin()
 void BME280::reset( void )
 {
 	writeRegister(BME280_RST_REG, 0xB6);
-
+	
 }
 
 //****************************************************************************//
@@ -153,7 +161,7 @@ float BME280::readFloatPressure( void )
 	// Returns pressure in Pa as unsigned 32 bit integer in Q24.8 format (24 integer bits and 8 fractional bits).
 	// Output value of “24674867” represents 24674867/256 = 96386.2 Pa = 963.862 hPa
 	int32_t adc_P = ((uint32_t)readRegister(BME280_PRESSURE_MSB_REG) << 12) | ((uint32_t)readRegister(BME280_PRESSURE_LSB_REG) << 4) | ((readRegister(BME280_PRESSURE_XLSB_REG) >> 4) & 0x0F);
-
+	
 	int64_t var1, var2, p_acc;
 	var1 = ((int64_t)t_fine) - 128000;
 	var2 = var1 * var1 * (int64_t)calibration.dig_P6;
@@ -170,28 +178,27 @@ float BME280::readFloatPressure( void )
 	var1 = (((int64_t)calibration.dig_P9) * (p_acc>>13) * (p_acc>>13)) >> 25;
 	var2 = (((int64_t)calibration.dig_P8) * p_acc) >> 19;
 	p_acc = ((p_acc + var1 + var2) >> 8) + (((int64_t)calibration.dig_P7)<<4);
-
-	p_acc = p_acc >> 8; // /256
-	return (float)p_acc;
-
+	
+	return (float)p_acc / 256.0;
+	
 }
 
 float BME280::readFloatAltitudeMeters( void )
 {
 	float heightOutput = 0;
-
+	
 	heightOutput = ((float)-45846.2)*(pow(((float)readFloatPressure()/(float)101325), 0.190263) - (float)1);
 	return heightOutput;
-
+	
 }
 
 float BME280::readFloatAltitudeFeet( void )
 {
 	float heightOutput = 0;
-
+	
 	heightOutput = readFloatAltitudeMeters() * 3.28084;
 	return heightOutput;
-
+	
 }
 
 //****************************************************************************//
@@ -201,11 +208,11 @@ float BME280::readFloatAltitudeFeet( void )
 //****************************************************************************//
 float BME280::readFloatHumidity( void )
 {
-
+	
 	// Returns humidity in %RH as unsigned 32 bit integer in Q22. 10 format (22 integer and 10 fractional bits).
 	// Output value of “47445” represents 47445/1024 = 46. 333 %RH
 	int32_t adc_H = ((uint32_t)readRegister(BME280_HUMIDITY_MSB_REG) << 8) | ((uint32_t)readRegister(BME280_HUMIDITY_LSB_REG));
-
+	
 	int32_t var1;
 	var1 = (t_fine - ((int32_t)76800));
 	var1 = (((((adc_H << 14) - (((int32_t)calibration.dig_H4) << 20) - (((int32_t)calibration.dig_H5) * var1)) +
@@ -215,7 +222,7 @@ float BME280::readFloatHumidity( void )
 	var1 = (var1 < 0 ? 0 : var1);
 	var1 = (var1 > 419430400 ? 419430400 : var1);
 
-	return (float)((var1>>12) >> 10);
+	return (float)(var1>>12) / 1024.0;
 
 }
 
@@ -245,7 +252,7 @@ float BME280::readTempC( void )
 	float output = (t_fine * 5 + 128) >> 8;
 
 	output = output / 100;
-
+	
 	return output;
 }
 
@@ -350,7 +357,7 @@ int16_t BME280::readRegisterInt16( uint8_t offset )
 	uint8_t myBuffer[2];
 	readRegisterRegion(myBuffer, offset, 2);  //Does memory transfer
 	int16_t output = (int16_t)myBuffer[0] | int16_t(myBuffer[1] << 8);
-
+	
 	return output;
 }
 
