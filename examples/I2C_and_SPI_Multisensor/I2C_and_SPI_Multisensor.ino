@@ -21,7 +21,7 @@ or concerns with licensing, please contact techsupport@sparkfun.com.
 Distributed as-is; no warranty is given.
 ******************************************************************************/
 
-#include "SparkFunBME280/SparkFunBME280.h"
+#include "SparkFunBME280.h"
 
 //Global sensor object
 BME280 mySensorA;

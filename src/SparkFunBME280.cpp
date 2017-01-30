@@ -1,17 +1,12 @@
 /******************************************************************************
 SparkFunBME280.cpp
-BME280 Arduino and Teensy Driver
-Marshall Taylor @ SparkFun Electronics
-May 20, 2015
-https://github.com/sparkfun/BME280_Breakout
-
-Resources:
-Uses Wire.h for i2c operation
-Uses SPI.h for SPI operation
+BME280 Particle Photon and Core Driver
+Orginal by: Marshall Taylor @ SparkFun Electronics
+Particle adaption by: Markus Haack (https://github.com/mhaack)
+https://github.com/mhaack/SparkFun_BME280
 
 Development environment specifics:
-Arduino IDE 1.6.4
-Teensy loader 1.23
+Particle IDE or Web IDE
 
 This code is released under the [MIT License](http://opensource.org/licenses/MIT).
 Please review the LICENSE.md file included with this example. If you have any questions 
@@ -21,11 +16,8 @@ Distributed as-is; no warranty is given.
 //See SparkFunBME280.h for additional topology notes.
 
 #include "SparkFunBME280.h"
-#include "stdint.h"
+#include "application.h"
 #include <math.h>
-
-#include "Wire.h"
-#include "SPI.h"
 
 //****************************************************************************//
 //
